@@ -2,6 +2,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+require("dotenv").config();
 
 const loginUser = async ({ email, password }) => {
   const matchUser = await User.findOne({ email });
@@ -12,7 +13,12 @@ const loginUser = async ({ email, password }) => {
   if (!isMatchPass) {
     throw new Error("invalid password");
   }
-  return matchUser;
+  const token = jwt.sign({
+    userId : matchUser._id,
+  }, 
+  process.env.JWT_SECRET_KEY, 
+  { expiresIn: "1h" });
+  return {matchUser, token};
 };
 
 const signupUser = async ({ name, email, mobNumber, password }) => {
@@ -31,4 +37,4 @@ const signupUser = async ({ name, email, mobNumber, password }) => {
   return user;
 };
 
-module.exports = signupUser;
+module.exports = {loginUser, signupUser};

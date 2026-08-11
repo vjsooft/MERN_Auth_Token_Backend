@@ -1,13 +1,21 @@
 // const User = require("../models/userModel");
-const signupUser = require('../services/userServices');
+const {loginUser, signupUser} = require('../services/userServices');
 
 const userLogin = async (req, res) => {
   try {
-    const userLogin = await User.loginUser(req.body);
+    const userLogin = await loginUser(req.body);
+    const {password, ...loginData} = userLogin.matchUser.toObject();
     res.status(200).json({
       message: "User login successfully",
+      user:loginData,
+      token: userLogin.token
     });
-  } catch (err) {}
+  } catch (err) {
+    res.status(401).json({
+      message: "User login failed",
+      error: err.message,
+    });
+  }
 };
 const userRegister = async (req, res) => {
   try {
