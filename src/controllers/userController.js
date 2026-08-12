@@ -25,7 +25,7 @@ const userRegister = async (req, res) => {
     // const existingUser = await User.findOne({ email});
     // if (existingUser) {
     //   return res.status(400).json({
-    //     message: "User already registered plase login",
+    //     message: "User already registered please login",
     //   });
     // }
     // const user = await User.create({ name, email, mobNumber, password });

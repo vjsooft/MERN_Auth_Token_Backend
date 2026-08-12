@@ -24,7 +24,7 @@ const loginUser = async ({ email, password }) => {
 const signupUser = async ({ name, email, mobNumber, password }) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    throw new Error("User already registered plase login");
+    throw new Error("User already registered please login");
   }
   const hashPass = await bcrypt.hash(password, 10);
   const user = await User.create({
